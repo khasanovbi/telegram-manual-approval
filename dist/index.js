@@ -2489,7 +2489,7 @@ class HttpClient {
         if (this._keepAlive && useProxy) {
             agent = this._proxyAgent;
         }
-        if (this._keepAlive && !useProxy) {
+        if (!useProxy) {
             agent = this._agent;
         }
         // if agent is already assigned use that agent.
@@ -2521,15 +2521,11 @@ class HttpClient {
             agent = tunnelAgent(agentOptions);
             this._proxyAgent = agent;
         }
-        // if reusing agent across request and tunneling agent isn't assigned create a new agent
-        if (this._keepAlive && !agent) {
+        // if tunneling agent isn't assigned create a new agent
+        if (!agent) {
             const options = { keepAlive: this._keepAlive, maxSockets };
             agent = usingSsl ? new https.Agent(options) : new http.Agent(options);
             this._agent = agent;
-        }
-        // if not using private agent and tunnel agent isn't setup then use global agent
-        if (!agent) {
-            agent = usingSsl ? https.globalAgent : http.globalAgent;
         }
         if (usingSsl && this._ignoreSslError) {
             // we don't want to set NODE_TLS_REJECT_UNAUTHORIZED=0 since that will affect request for entire process
@@ -36476,29 +36472,29 @@ function validateApprovers(approvers, githubToTelegram) {
         if (githubToTelegram.usernameToUsername.get(approver)) {
             continue;
         }
-        throw new Error(`Approver ${approver} not found in GITHUB_TO_TELEGRAM`);
+        throw new Error(`Approver ${approver} not found in github-to-telegram`);
     }
 }
 function parseConfig() {
     const config = {
-        token: parseRequiredString('TELEGRAM_KEY'),
-        chatID: parseRequiredString('TELEGRAM_CHAT_ID'),
-        timeoutMs: parseNumber('TIMEOUT') * 1000,
-        githubToTelegram: parseGithubUsernameToTelegramEntity('GITHUB_TO_TELEGRAM'),
-        allowSelfApprove: core.getBooleanInput('ALLOW_SELF_APPROVE', { required: true }),
-        approvers: parseApprovers('APPROVERS'),
-        superApprovers: parseApprovers('SUPER_APPROVERS'),
+        token: parseRequiredString('telegram-key'),
+        chatID: parseRequiredString('telegram-chat-id'),
+        timeoutMs: parseNumber('timeout') * 1000,
+        githubToTelegram: parseGithubUsernameToTelegramEntity('github-to-telegram'),
+        allowSelfApprove: core.getBooleanInput('allow-self-approve', { required: true }),
+        approvers: parseApprovers('approvers'),
+        superApprovers: parseApprovers('super-approvers'),
         text: {
-            parseMode: parseParseMode('PARSE_MODE'),
-            approvalText: parseRequiredString('APPROVAL_TEXT'),
-            approvedText: parseRequiredString('APPROVED_TEXT'),
-            rejectedText: parseRequiredString('REJECTED_TEXT'),
-            timeoutText: parseRequiredString('TIMEOUT_TEXT'),
-            approveButtonText: parseRequiredString('APPROVE_BUTTON'),
-            rejectButtonText: parseRequiredString('REJECT_BUTTON'),
-            approverNotFoundInMapText: parseRequiredString('APPROVER_NOT_FOUND_IN_MAP_TEXT'),
-            approverPermissionDeniedText: parseRequiredString('APPROVER_PERMISSION_DENIED_TEXT'),
-            actorCantDoSelfApproveText: parseRequiredString('ACTOR_CANT_DO_SELF_APPROVE_TEXT')
+            parseMode: parseParseMode('parse-mode'),
+            approvalText: parseRequiredString('approval-text'),
+            approvedText: parseRequiredString('approved-text'),
+            rejectedText: parseRequiredString('rejected-text'),
+            timeoutText: parseRequiredString('timeout-text'),
+            approveButtonText: parseRequiredString('approve-button'),
+            rejectButtonText: parseRequiredString('reject-button'),
+            approverNotFoundInMapText: parseRequiredString('approver-not-found-in-map-text'),
+            approverPermissionDeniedText: parseRequiredString('approver-permission-denied-text'),
+            actorCantDoSelfApproveText: parseRequiredString('actor-cant-do-self-approve-text')
         }
     };
     validateApprovers(config.approvers, config.githubToTelegram);

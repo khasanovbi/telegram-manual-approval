@@ -27,16 +27,16 @@ To use this action, add the following step to your GitHub Actions workflow:
 
 ```yaml
 steps:
-  - uses: khasanovbi/telegram-manual-approval@v0.0.1
+  - uses: khasanovbi/telegram-manual-approval@v0.0.2
     with:
-      TELEGRAM_KEY: ${{ secrets.TELEGRAM_KEY }}
-      TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
-      GITHUB_TO_TELEGRAM: |
+      telegram-key: ${{ secrets.TELEGRAM_KEY }}
+      telegram-chat-id: ${{ vars.TELEGRAM_CHAT_ID }}
+      github-to-telegram: |
          githubUsername: telegramUsername
          anotherGitHubUsername: 123456789
-      APPROVERS: |
+      approvers: |
          githubUsername
-      SUPER_APPROVERS: |
+      super-approvers: |
          anotherGitHubUsername
 ```
 
@@ -46,30 +46,30 @@ Configure the inputs to customize the Telegram message:
 
 ### Common settings
 
-- `TELEGRAM_KEY` - Telegram Bot key.
-- `TELEGRAM_CHAT_ID` - Telegram chat ID to send message.
-- `TIMEOUT` - Run timeout, in seconds, default 120 seconds.
-- `GITHUB_TO_TELEGRAM` - Mapping from GitHub username to telegram username or ID, each pair in new line and separated with colon.
-- `ALLOW_SELF_APPROVE` - Whether or not to filter out the user who initiated the workflow as an approver if they are in the approvers list, default false.
-- `APPROVERS` - List of GitHub users that allowed to approver or reject deployment, each username in new line.
-- `SUPER_APPROVERS` - List of GitHub users that allowed to approver or reject deployment, who can ignore `ALLOW_SELF_APPROVE` setting, each username in new line. Super approvers automatically include to `APPROVERS` set, don't need to duplicate them.
-- `PARSE_MODE` - Mode for parsing Telegram entities, default: `HTML`.
+- `telegram-key` - Telegram Bot key.
+- `telegram-chat-id` - Telegram chat ID to send message.
+- `timeout` - Run timeout, in seconds, default 120 seconds.
+- `github-to-telegram` - Mapping from GitHub username to telegram username or ID, each pair in new line and separated with colon.
+- `allow-self-approve` - Whether or not to filter out the user who initiated the workflow as an approver if they are in the approvers list, default `false`.
+- `approvers` - List of GitHub users that allowed to approver or reject deployment, each username in new line.
+- `super-approvers` - List of GitHub users that allowed to approver or reject deployment, who can ignore `allow-self-approve` setting, each username in new line. Super approvers automatically include to `approvers` set, don't need to duplicate them.
+- `parse-mode` - Mode for parsing Telegram entities, default: `HTML`.
 
 ### Message text settings
 
-- `APPROVAL_TEXT` - Text of approval message, default: `"%%actor%% wants to <a href=\"%%workflow_run_url%%\">deploy</a> <a href=\"%%github_ref_url%%\">${{ github.event.repository.name }}@${{ github.ref_name }}</a> to production"`.
-- `APPROVE_BUTTON` - Text of approve button, default: `Approve`.
-- `REJECT_BUTTON` - Text of rejection button, default: `Reject`.
-- `APPROVED_TEXT` - Text of approved message, default: `Approved by %%approver%%`.
-- `REJECTED_TEXT` - Text of rejected message, default `Rejected by %%approver%%`.
-- `TIMEOUT_TEXT` - Text of timeout, default `Timeout`.
-- `APPROVER_NOT_FOUND_IN_MAP_TEXT` - Text of unknown approver message, default `%%approver%% you are not found on config map`.
-- `APPROVER_PERMISSION_DENIED_TEXT` - Text of permission denied message, default `%%approver%% you cant approve or reject this deployment`.
-- `ACTOR_CANT_DO_SELF_APPROVE_TEXT` - Text of error message, when actor cant do self approve, default `%%actor%% you cant do self approve`.
+- `approval-text` - Text of approval message, default: `"%%actor%% wants to <a href=\"%%workflow_run_url%%\">deploy</a> <a href=\"%%github_ref_url%%\">${{ github.event.repository.name }}@${{ github.ref_name }}</a> to production"`.
+- `approve-button` - Text of approve button, default: `Approve`.
+- `reject-button` - Text of rejection button, default: `Reject`.
+- `approved-text` - Text of approved message, default: `Approved by %%approver%%`.
+- `rejected-text` - Text of rejected message, default `Rejected by %%approver%%`.
+- `timeout-text` - Text of timeout, default `Timeout`.
+- `approver-not-found-in-map-text` - Text of unknown approver message, default `%%approver%% you are not found on config map`.
+- `approver-permission-denied-text` - Text of permission denied message, default `%%approver%% you can't approve or reject this deployment`.
+- `actor-cant-do-self-approve-text` - Text of error message, when actor can't do self approve, default `%%actor%% you can't do self approve`.
 
 Text messages support following template vars:
 
-- `%%actor%%` - The Telegram username or link to user that triggered the initial workflow run. If user not found in `GITHUB_TO_TELEGRAM` mapping, GitHub username would be used.
+- `%%actor%%` - The Telegram username or link to user that triggered the initial workflow run. If user not found in `github-to-telegram` mapping, GitHub username would be used.
 - `%%approver%%` - The Telegram username of user who click to Approve or Reject button.
 - `%%github_ref_url%%` - URL to branch or tag in GitHub.
 - `%%workflow_run_url%%` - URL to workflow run.
@@ -80,9 +80,6 @@ Text messages support following template vars:
 name: Release
 
 on:
-  push:
-    tags:
-      - v*
   workflow_dispatch:
     inputs:
       environment:
@@ -96,17 +93,17 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - uses: khasanovbi/telegram-manual-approval@v0.0.1
+      - uses: khasanovbi/telegram-manual-approval@v0.0.2
         if: inputs.environment == 'prod'
         with:
-          TELEGRAM_KEY: "${{ secrets.TELEGRAM_KEY }}"
-          TELEGRAM_CHAT_ID: "${{ vars.TELEGRAM_CHAT_ID }}"
-          GITHUB_TO_TELEGRAM: |
+          telegram-key: "${{ secrets.TELEGRAM_KEY }}"
+          telegram-chat-id: "${{ vars.TELEGRAM_CHAT_ID }}"
+          github-to-telegram: |
             githubUsername: telegramUsername
             anotherGitHubUsername: 123456789
-          APPROVERS: |
+          approvers: |
             githubUsername
-          SUPER_APPROVERS: |
+          super-approvers: |
             anotherGitHubUsername
 
       - name: Run deploy

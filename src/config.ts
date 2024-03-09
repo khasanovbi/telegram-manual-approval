@@ -107,30 +107,30 @@ function validateApprovers(approvers: Set<string>, githubToTelegram: GithubToTel
             continue
         }
 
-        throw new Error(`Approver ${approver} not found in GITHUB_TO_TELEGRAM`)
+        throw new Error(`Approver ${approver} not found in github-to-telegram`)
     }
 }
 
 export function parseConfig(): Config {
     const config = {
-        token: parseRequiredString('TELEGRAM_KEY'),
-        chatID: parseRequiredString('TELEGRAM_CHAT_ID'),
-        timeoutMs: parseNumber('TIMEOUT') * 1000,
-        githubToTelegram: parseGithubUsernameToTelegramEntity('GITHUB_TO_TELEGRAM'),
-        allowSelfApprove: core.getBooleanInput('ALLOW_SELF_APPROVE', { required: true }),
-        approvers: parseApprovers('APPROVERS'),
-        superApprovers: parseApprovers('SUPER_APPROVERS'),
+        token: parseRequiredString('telegram-key'),
+        chatID: parseRequiredString('telegram-chat-id'),
+        timeoutMs: parseNumber('timeout') * 1000,
+        githubToTelegram: parseGithubUsernameToTelegramEntity('github-to-telegram'),
+        allowSelfApprove: core.getBooleanInput('allow-self-approve', { required: true }),
+        approvers: parseApprovers('approvers'),
+        superApprovers: parseApprovers('super-approvers'),
         text: {
-            parseMode: parseParseMode('PARSE_MODE'),
-            approvalText: parseRequiredString('APPROVAL_TEXT'),
-            approvedText: parseRequiredString('APPROVED_TEXT'),
-            rejectedText: parseRequiredString('REJECTED_TEXT'),
-            timeoutText: parseRequiredString('TIMEOUT_TEXT'),
-            approveButtonText: parseRequiredString('APPROVE_BUTTON'),
-            rejectButtonText: parseRequiredString('REJECT_BUTTON'),
-            approverNotFoundInMapText: parseRequiredString('APPROVER_NOT_FOUND_IN_MAP_TEXT'),
-            approverPermissionDeniedText: parseRequiredString('APPROVER_PERMISSION_DENIED_TEXT'),
-            actorCantDoSelfApproveText: parseRequiredString('ACTOR_CANT_DO_SELF_APPROVE_TEXT')
+            parseMode: parseParseMode('parse-mode'),
+            approvalText: parseRequiredString('approval-text'),
+            approvedText: parseRequiredString('approved-text'),
+            rejectedText: parseRequiredString('rejected-text'),
+            timeoutText: parseRequiredString('timeout-text'),
+            approveButtonText: parseRequiredString('approve-button'),
+            rejectButtonText: parseRequiredString('reject-button'),
+            approverNotFoundInMapText: parseRequiredString('approver-not-found-in-map-text'),
+            approverPermissionDeniedText: parseRequiredString('approver-permission-denied-text'),
+            actorCantDoSelfApproveText: parseRequiredString('actor-cant-do-self-approve-text')
         }
     }
 

@@ -58,7 +58,7 @@ function parseNumber(name: string): number {
 
 interface ParsedGithubUsernameTelegramUsernameEntry {
     githubUsername: string
-    telegramUsernameOrID: string | number
+    telegramUsernameOrID: string
 }
 
 function parseGithubUsernameToTelegramEntityLine(line: string): ParsedGithubUsernameTelegramUsernameEntry {
@@ -78,11 +78,12 @@ function parseGithubUsernameToTelegramEntity(name: string): GithubToTelegramConf
     const githubUsernameToTelegramID = new Map<string, number>()
     for (const line of multilineInput) {
         const parsedData = parseGithubUsernameToTelegramEntityLine(line)
+        const githubUsername = parsedData.githubUsername.toLowerCase()
         const telegramID = Number(parsedData.telegramUsernameOrID)
         if (isNaN(telegramID)) {
-            githubUsernameToTelegramUsername.set(parsedData.githubUsername, parsedData.telegramUsernameOrID as string)
+            githubUsernameToTelegramUsername.set(githubUsername, parsedData.telegramUsernameOrID.toLowerCase())
         } else {
-            githubUsernameToTelegramID.set(parsedData.githubUsername, telegramID)
+            githubUsernameToTelegramID.set(githubUsername, telegramID)
         }
     }
 
@@ -94,7 +95,11 @@ function parseGithubUsernameToTelegramEntity(name: string): GithubToTelegramConf
 
 function parseApprovers(name: string): Set<string> {
     const multilineInput = core.getMultilineInput(name).filter(item => item !== '')
-    return new Set<string>(multilineInput)
+    const approvers = new Set<string>()
+    for (const approver of multilineInput) {
+        approvers.add(approver.toLowerCase())
+    }
+    return approvers
 }
 
 function validateApprovers(approvers: Set<string>, githubToTelegram: GithubToTelegramConfig): void {

@@ -10,9 +10,7 @@ import { v4 } from 'uuid'
 import { prepareTemplateContext, template, TemplateContext, templateReplyMessage } from './template'
 import { callbackQuery } from 'telegraf/filters'
 
-async function getActor(bot: Telegram, config: Config): Promise<string> {
-    const actor = github.context.actor
-
+async function getActorLink(actor: string, bot: Telegram, config: Config): Promise<string> {
     const username = config.githubToTelegram.usernameToUsername.get(actor)
     if (username) {
         return makeMention(username)
@@ -156,8 +154,9 @@ export async function run(): Promise<void> {
     try {
         const config = parseConfig()
         const bot = new Telegraf(config.token)
-        const actor = await getActor(bot.telegram, config)
-        const templateContext = prepareTemplateContext(actor)
+        const actor = github.context.actor.toLowerCase()
+        const actorLink = await getActorLink(actor, bot.telegram, config)
+        const templateContext = prepareTemplateContext(actorLink)
 
         config.text.approvalText = template(config.text.approvalText, templateContext)
 
@@ -167,7 +166,7 @@ export async function run(): Promise<void> {
         )
 
         const authorizationBackend = new InmemoryAuthorizationBackend(
-            github.context.actor,
+            actor,
             githubUsernameResolver,
             config.allowSelfApprove,
             config.approvers,

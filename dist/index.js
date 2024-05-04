@@ -36447,12 +36447,13 @@ function parseGithubUsernameToTelegramEntity(name) {
     const githubUsernameToTelegramID = new Map();
     for (const line of multilineInput) {
         const parsedData = parseGithubUsernameToTelegramEntityLine(line);
+        const githubUsername = parsedData.githubUsername.toLowerCase();
         const telegramID = Number(parsedData.telegramUsernameOrID);
         if (isNaN(telegramID)) {
-            githubUsernameToTelegramUsername.set(parsedData.githubUsername, parsedData.telegramUsernameOrID);
+            githubUsernameToTelegramUsername.set(githubUsername, parsedData.telegramUsernameOrID.toLowerCase());
         }
         else {
-            githubUsernameToTelegramID.set(parsedData.githubUsername, telegramID);
+            githubUsernameToTelegramID.set(githubUsername, telegramID);
         }
     }
     return {
@@ -36462,7 +36463,11 @@ function parseGithubUsernameToTelegramEntity(name) {
 }
 function parseApprovers(name) {
     const multilineInput = core.getMultilineInput(name).filter(item => item !== '');
-    return new Set(multilineInput);
+    const approvers = new Set();
+    for (const approver of multilineInput) {
+        approvers.add(approver.toLowerCase());
+    }
+    return approvers;
 }
 function validateApprovers(approvers, githubToTelegram) {
     for (const approver of approvers) {
@@ -36588,8 +36593,7 @@ const resolver_1 = __nccwpck_require__(2861);
 const uuid_1 = __nccwpck_require__(5840);
 const template_1 = __nccwpck_require__(3932);
 const filters_1 = __nccwpck_require__(9278);
-async function getActor(bot, config) {
-    const actor = github.context.actor;
+async function getActorLink(actor, bot, config) {
     const username = config.githubToTelegram.usernameToUsername.get(actor);
     if (username) {
         return (0, format_1.makeMention)(username);
@@ -36686,11 +36690,12 @@ async function run() {
     try {
         const config = (0, config_1.parseConfig)();
         const bot = new telegraf_1.Telegraf(config.token);
-        const actor = await getActor(bot.telegram, config);
-        const templateContext = (0, template_1.prepareTemplateContext)(actor);
+        const actor = github.context.actor.toLowerCase();
+        const actorLink = await getActorLink(actor, bot.telegram, config);
+        const templateContext = (0, template_1.prepareTemplateContext)(actorLink);
         config.text.approvalText = (0, template_1.template)(config.text.approvalText, templateContext);
         const githubUsernameResolver = new resolver_1.InmemoryGithubUsernameResolver((0, utils_1.inverseMap)(config.githubToTelegram.usernameToID), (0, utils_1.inverseMap)(config.githubToTelegram.usernameToUsername));
-        const authorizationBackend = new auth_1.InmemoryAuthorizationBackend(github.context.actor, githubUsernameResolver, config.allowSelfApprove, config.approvers, config.superApprovers, config.text);
+        const authorizationBackend = new auth_1.InmemoryAuthorizationBackend(actor, githubUsernameResolver, config.allowSelfApprove, config.approvers, config.superApprovers, config.text);
         await awaitApprove(bot, authorizationBackend, githubUsernameResolver, templateContext, config);
     }
     catch (error) {
@@ -36726,7 +36731,11 @@ class InmemoryGithubUsernameResolver {
         if (githubUsername) {
             return githubUsername;
         }
-        githubUsername = this.telegramUsernameToGithubUsername.get(user.username);
+        const telegramUsername = user.username;
+        if (!telegramUsername) {
+            return '';
+        }
+        githubUsername = this.telegramUsernameToGithubUsername.get(telegramUsername.toLowerCase());
         if (githubUsername) {
             return githubUsername;
         }

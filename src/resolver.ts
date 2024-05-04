@@ -16,7 +16,12 @@ export class InmemoryGithubUsernameResolver implements GithubUsernameResolver {
             return githubUsername
         }
 
-        githubUsername = this.telegramUsernameToGithubUsername.get(user.username as string)
+        const telegramUsername = user.username
+        if (!telegramUsername) {
+            return ''
+        }
+
+        githubUsername = this.telegramUsernameToGithubUsername.get(telegramUsername.toLowerCase())
         if (githubUsername) {
             return githubUsername
         }

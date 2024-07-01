@@ -68,9 +68,9 @@
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
     "@telegraf/types": "^7.1.0",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "^10.0.0",
     "telegraf": "^4.16.3",
-    "uuid": "^9.0.1"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

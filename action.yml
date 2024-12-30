@@ -3,77 +3,84 @@ description: 'Allows for manual approval of workflows via Telegram within chat.'
 author: 'Bulat Khasanov'
 
 branding:
-  icon: 'send'
-  color: 'gray-dark'
+    icon: 'send'
+    color: 'gray-dark'
 
 inputs:
-  telegram-key:
-    description: 'Telegram Bot key'
-    required: true
-  telegram-chat-id:
-    description: 'Telegram chat ID to send message'
-    required: true
-  timeout:
-    description: 'Run timeout, in seconds'
-    required: false
-    default: '120'
-  github-to-telegram:
-    description: 'Mapping from github username to telegram username or ID, each pair in new line and separated with colon'
-    required: false
-    default: ''
-  allow-self-approve:
-    description: 'Whether or not to filter out the user who initiated the workflow as an approver if they are in the approvers list'
-    required: false
-    default: 'false'
-  approvers:
-    description: 'List of github users that allowed to approver or reject deployment, each username in new line'
-    required: false
-    default: ''
-  super-approvers:
-    description: 'List of github users that allowed to approver or reject deployment, who can ignore allow-self-approve setting, each username in new line'
-    required: false
-    default: ''
-  parse-mode:
-    description: 'Mode for parsing entities'
-    required: false
-    default: 'HTML'
-  approval-text:
-    description: 'Text of approval message'
-    required: false
-    default: "%%actor%% want's to <a href=\"%%workflow_run_url%%\">deploy</a> <a href=\"%%github_ref_url%%\">${{ github.event.repository.name }}@${{ github.ref_name }}</a> to production"
-  approve-button:
-    description: 'Text of approve button'
-    required: false
-    default: 'Approve'
-  reject-button:
-    description: 'Text of rejection button'
-    required: false
-    default: 'Reject'
-  approved-text:
-    description: 'Text of successful approved'
-    required: false
-    default: 'Approved by %%approver%%'
-  rejected-text:
-    description: 'Text of successful rejected'
-    required: false
-    default: 'Rejected by %%approver%%'
-  timeout-text:
-    description: 'Text of timeout'
-    required: false
-    default: 'Timeout'
-  approver-not-found-in-map-text:
-    description: 'Text of unknown approver message'
-    required: false
-    default: '%%approver%% you are not found on config map'
-  approver-permission-denied-text:
-    description: 'Text of permission denied message'
-    required: false
-    default: "%%approver%% you can't approve or reject this deployment"
-  actor-cant-do-self-approve-text:
-    description: "Text of error message, when actor can't do self approve"
-    required: false
-    default: "%%actor%% you can't do self approve"
+    telegram-key:
+        description: 'Telegram Bot key'
+        required: true
+    telegram-chat-id:
+        description: 'Telegram chat ID to send message'
+        required: true
+    timeout:
+        description: 'Run timeout, in seconds'
+        required: false
+        default: '120'
+    github-to-telegram:
+        description:
+            'Mapping from github username to telegram username or ID, each pair in new line and separated with colon'
+        required: false
+        default: ''
+    allow-self-approve:
+        description:
+            'Whether or not to filter out the user who initiated the workflow as an approver if they are in the
+            approvers list'
+        required: false
+        default: 'false'
+    approvers:
+        description: 'List of github users that allowed to approver or reject deployment, each username in new line'
+        required: false
+        default: ''
+    super-approvers:
+        description:
+            'List of github users that allowed to approver or reject deployment, who can ignore allow-self-approve
+            setting, each username in new line'
+        required: false
+        default: ''
+    parse-mode:
+        description: 'Mode for parsing entities'
+        required: false
+        default: 'HTML'
+    approval-text:
+        description: 'Text of approval message'
+        required: false
+        default:
+            '%%actor%% want''s to <a href="%%workflow_run_url%%">deploy</a> <a href="%%github_ref_url%%">${{
+            github.event.repository.name }}@${{ github.ref_name }}</a> to production'
+    approve-button:
+        description: 'Text of approve button'
+        required: false
+        default: 'Approve'
+    reject-button:
+        description: 'Text of rejection button'
+        required: false
+        default: 'Reject'
+    approved-text:
+        description: 'Text of successful approved'
+        required: false
+        default: 'Approved by %%approver%%'
+    rejected-text:
+        description: 'Text of successful rejected'
+        required: false
+        default: 'Rejected by %%approver%%'
+    timeout-text:
+        description: 'Text of timeout'
+        required: false
+        default: 'Timeout'
+    approver-not-found-in-map-text:
+        description: 'Text of unknown approver message'
+        required: false
+        default: '%%approver%% you are not found on config map'
+    approver-permission-denied-text:
+        description: 'Text of permission denied message'
+        required: false
+        default: "%%approver%% you can't approve or reject this deployment"
+    actor-cant-do-self-approve-text:
+        description: "Text of error message, when actor can't do self approve"
+        required: false
+        default: "%%actor%% you can't do self approve"
 
 runs:
-  using: node20
-  main: dist/index.js
+    using: node20
+    main: dist/index.js

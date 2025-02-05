@@ -72,7 +72,7 @@
         "@telegraf/types": "^8.2.0",
         "@types/uuid": "^10.0.0",
         "telegraf": "^4.16.3",
-        "uuid": "^11.0.3"
+        "uuid": "^11.0.5"
     },
     "devDependencies": {
         "@github/local-action": "^2.5.1",

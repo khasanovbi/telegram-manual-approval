@@ -82,5 +82,5 @@ inputs:
         default: "%%actor%% you can't do self approve"
 
 runs:
-    using: node20
+    using: node24
     main: dist/index.js

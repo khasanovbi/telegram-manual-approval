@@ -1,4 +1,4 @@
-import type { ParseMode } from '@telegraf/types/message'
+import type { ParseMode } from '@telegraf/types'
 import * as core from '@actions/core'
 
 export interface TextConfig {

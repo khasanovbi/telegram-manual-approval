@@ -1,5 +1,5 @@
 import type { ParseMode, User } from '@telegraf/types'
-import { GithubUsernameResolver } from './resolver'
+import { GithubUsernameResolver } from './resolver.js'
 
 export function makeMention(username: string): string {
     return `@${username}`

@@ -1,6 +1,6 @@
 import * as github from '@actions/github'
 import type { ParseMode, User } from '@telegraf/types'
-import { makeUserLink } from './format'
+import { makeUserLink } from './format.js'
 
 const actorTemplate = '%%actor%%'
 const approverTemplate = '%%approver%%'

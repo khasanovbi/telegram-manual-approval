@@ -1,6 +1,6 @@
 import type { User } from '@telegraf/types'
-import { GithubUsernameResolver } from './resolver'
-import { TextConfig } from './config'
+import { GithubUsernameResolver } from './resolver.js'
+import { TextConfig } from './config.js'
 
 export interface AuthorizationBackend {
     authorize(approver: User): string

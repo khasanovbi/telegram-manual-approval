@@ -1,9 +1,9 @@
 # Telegram Manual Approval
 
-[![GitHub Super-Linter](https://github.com/actions/typescript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
-![CI](https://github.com/actions/typescript-action/actions/workflows/ci.yml/badge.svg)
-[![Check dist/](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml)
-[![CodeQL](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml)
+[![GitHub Super-Linter](https://github.com/khasanovbi/telegram-manual-approval/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
+![CI](https://github.com/khasanovbi/telegram-manual-approval/actions/workflows/ci.yml/badge.svg)
+[![Check dist/](https://github.com/khasanovbi/telegram-manual-approval/actions/workflows/check-dist.yml/badge.svg)](https://github.com/khasanovbi/telegram-manual-approval/actions/workflows/check-dist.yml)
+[![CodeQL](https://github.com/khasanovbi/telegram-manual-approval/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/khasanovbi/telegram-manual-approval/actions/workflows/codeql-analysis.yml)
 
 Obtain manual approval for GitHub Actions workflows through Telegram messages. This action pauses a workflow and
 requires a manual response via Telegram to continue.

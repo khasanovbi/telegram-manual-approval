@@ -1,13 +1,13 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { Markup, Telegraf, Telegram } from 'telegraf'
-import { Config, parseConfig, TextConfig } from './config'
-import { makeMention, makeUserLink, makeUsernameForActionStatus } from './format'
-import { AuthorizationBackend, InmemoryAuthorizationBackend } from './auth'
-import { awaitTimeout, inverseMap } from './utils'
-import { GithubUsernameResolver, InmemoryGithubUsernameResolver } from './resolver'
+import { Config, parseConfig, TextConfig } from './config.js'
+import { makeMention, makeUserLink, makeUsernameForActionStatus } from './format.js'
+import { AuthorizationBackend, InmemoryAuthorizationBackend } from './auth.js'
+import { awaitTimeout, inverseMap } from './utils.js'
+import { GithubUsernameResolver, InmemoryGithubUsernameResolver } from './resolver.js'
 import { v4 } from 'uuid'
-import { prepareTemplateContext, template, TemplateContext, templateReplyMessage } from './template'
+import { prepareTemplateContext, template, TemplateContext, templateReplyMessage } from './template.js'
 import { callbackQuery } from 'telegraf/filters'
 
 async function getActorLink(actor: string, bot: Telegram, config: Config): Promise<string> {
@@ -183,5 +183,4 @@ export async function run(): Promise<void> {
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 run()

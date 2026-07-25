@@ -31,7 +31,7 @@ To use this action, add the following step to your GitHub Actions workflow:
 
 ```yaml
 steps:
-    - uses: khasanovbi/telegram-manual-approval@v0.0.2
+    - uses: khasanovbi/telegram-manual-approval@v0.0.4
       with:
           telegram-key: ${{ secrets.TELEGRAM_KEY }}
           telegram-chat-id: ${{ vars.TELEGRAM_CHAT_ID }}
@@ -106,7 +106,7 @@ jobs:
         runs-on: ubuntu-latest
         environment: ${{ inputs.environment }}
         steps:
-            - uses: khasanovbi/telegram-manual-approval@v0.0.2
+            - uses: khasanovbi/telegram-manual-approval@v0.0.4
               if: inputs.environment == 'prod'
               with:
                   telegram-key: '${{ secrets.TELEGRAM_KEY }}'

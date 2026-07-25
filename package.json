@@ -1,7 +1,7 @@
 {
     "name": "manual-approve",
     "description": "Allows for manual approval of workflows via Telegram within chat.",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "author": "Bulat Khasanov",
     "type": "module",
     "private": true,

@@ -31,3 +31,9 @@ updates:
               dependency-type: production
               update-types:
                   - patch
+      ignore:
+          # The action runs on the `node24` runtime, so the types must not run
+          # ahead of it. Drop this once `runs.using` in action.yml moves up.
+          - dependency-name: '@types/node'
+            update-types:
+                - version-update:semver-major
